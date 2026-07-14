@@ -1,0 +1,46 @@
+[mgr]
+ratio          = [1, 4, 3]
+sort_by        = "alphabetical"
+sort_sensitive = false
+sort_reverse   = false
+sort_dir_first = true
+linemode       = "size"
+show_hidden    = true
+show_symlink   = true
+scrolloff      = 5
+mouse_events   = ["click", "scroll"]
+title_format   = "yazi: {cwd}"
+
+[preview]
+tab_size       = 2
+max_width      = 600
+max_height     = 900
+cache_dir      = ""
+image_filter   = "triangle"
+image_quality  = 75
+sixel_fraction = 20
+ueberzug_scale = 1
+ueberzug_offset = [0, 0, 0, 0]
+
+[opener]
+edit = [
+  { run = 'micro "$1"', desc = "Edit", block = true }
+]
+open = [
+  { run = 'xdg-open "$1"', desc = "Open", orphan = true }
+]
+terminal = [
+  { run = 'ghostty -e bash -c "cd $0 && exec bash"', desc = "Terminal here", block = true }
+]
+
+[open]
+rules = [
+  { name = "*/", use = ["terminal"] },
+  { mime = "text/*", use = ["edit"] },
+  { mime = "image/*", use = ["open"] },
+  { mime = "video/*", use = ["open"] },
+  { mime = "application/json", use = ["edit"] },
+  { mime = "*/javascript", use = ["edit"] },
+  { mime = "inode/directory", use = ["terminal"] },
+  { mime = "*", use = ["open"] },
+]

@@ -1,0 +1,169 @@
+// Niri compositor configuration with Noctalia shell integration
+// Docs: https://niri-wm.github.io/niri/
+
+// ── Autostart ────────────────────────────────────────────────────────────────
+spawn-at-startup "noctalia"
+// xwayland-satellite is auto-managed by niri 26.04+ (no manual spawn needed)
+
+// ── Input ────────────────────────────────────────────────────────────────────
+input {
+    keyboard {
+        xkb {
+            layout "us"
+        }
+    }
+    touchpad {
+        tap
+        dwt
+        natural-scroll
+        accel-profile "flat"
+    }
+    mouse {
+        accel-profile "flat"
+    }
+}
+
+// ── Outputs ──────────────────────────────────────────────────────────────────
+// Uncomment and edit for per-monitor settings:
+// output "DP-1" {
+//     mode 2560x1440@144
+//     scale 1.0
+// }
+
+// ── Layout ───────────────────────────────────────────────────────────────────
+layout {
+    gaps 8
+    focus-ring {
+        off
+    }
+    border {
+        on
+        width 2
+    }
+    // Uncomment for stationary wallpaper (Option 2 from Noctalia docs):
+    // background-color "transparent"
+}
+
+// ── Window Rules ─────────────────────────────────────────────────────────────
+// Rounded corners for all windows
+window-rule {
+    geometry-corner-radius 12
+    clip-to-geometry true
+}
+
+// Floating Noctalia settings window
+window-rule {
+    match app-id="dev.noctalia.Noctalia"
+    open-floating true
+    default-column-width { fixed 1080; }
+    default-window-height { fixed 920; }
+}
+
+// ── Blur (niri 26.04+) ───────────────────────────────────────────────────────
+layer-rule {
+    match namespace="^noctalia-bar-"
+    background-effect {
+        blur true
+        xray false
+    }
+}
+blur {
+    passes 2
+    offset 3.0
+    noise 0.03
+    saturation 1.0
+}
+
+// ── Layer Rules (Noctalia wallpaper) ─────────────────────────────────────────
+// Option 1: Blurred overview wallpaper (requires [backdrop] enabled in Noctalia)
+layer-rule {
+    match namespace="^noctalia-backdrop"
+    place-within-backdrop true
+}
+
+// ── Debug ────────────────────────────────────────────────────────────────────
+debug {
+    // Allows notification actions and window activation from Noctalia
+    honor-xdg-activation-with-invalid-serial
+}
+
+// ── Key Bindings ─────────────────────────────────────────────────────────────
+binds {
+    // ── Core keybinds ──
+    Mod+T      { spawn "ghostty"; }
+    Mod+B      { spawn "zen"; }
+    Mod+M      { spawn-sh "flatpak run com.tutanota.Tutanota"; }
+    Mod+E      { spawn-sh "ghostty -e yazi"; }
+    Mod+D      { spawn "fuzzel"; }
+    Mod+Space  { spawn-sh "noctalia msg panel-toggle launcher"; }
+    Mod+S      { spawn-sh "noctalia msg panel-toggle control-center"; }
+    Mod+Comma  { spawn-sh "noctalia msg settings-toggle"; }
+
+    // ── Audio & Brightness ──
+    XF86AudioRaiseVolume   { spawn-sh "noctalia msg volume-up"; }
+    XF86AudioLowerVolume   { spawn-sh "noctalia msg volume-down"; }
+    XF86AudioMute          { spawn-sh "noctalia msg volume-mute"; }
+    XF86MonBrightnessUp    { spawn-sh "noctalia msg brightness-up"; }
+    XF86MonBrightnessDown  { spawn-sh "noctalia msg brightness-down"; }
+
+    // ── Window management ──
+    Mod+Q       { close-window; }
+    Mod+Shift+E { quit; }
+
+    // ── Focus ──
+    Mod+Left   { focus-column-left; }
+    Mod+Down   { focus-window-down; }
+    Mod+Up     { focus-window-up; }
+    Mod+Right  { focus-column-right; }
+
+    // ── Move ──
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Down  { move-window-down; }
+    Mod+Shift+Up    { move-window-up; }
+    Mod+Shift+Right { move-column-right; }
+
+    // ── Columns & workspaces ──
+    Mod+BracketLeft   { consume-or-expel-window-left; }
+    Mod+BracketRight  { consume-or-expel-window-right; }
+    Mod+R             { expand-column-to-available-width; }
+    Mod+F             { maximize-column; }
+    Mod+Shift+F       { fullscreen-window; }
+    Mod+C             { center-column; }
+
+    // ── Workspaces ──
+    Mod+1  { focus-workspace 1; }
+    Mod+2  { focus-workspace 2; }
+    Mod+3  { focus-workspace 3; }
+    Mod+4  { focus-workspace 4; }
+    Mod+5  { focus-workspace 5; }
+    Mod+6  { focus-workspace 6; }
+    Mod+7  { focus-workspace 7; }
+    Mod+8  { focus-workspace 8; }
+    Mod+9  { focus-workspace 9; }
+
+    Mod+Shift+1  { move-window-to-workspace 1; }
+    Mod+Shift+2  { move-window-to-workspace 2; }
+    Mod+Shift+3  { move-window-to-workspace 3; }
+    Mod+Shift+4  { move-window-to-workspace 4; }
+    Mod+Shift+5  { move-window-to-workspace 5; }
+    Mod+Shift+6  { move-window-to-workspace 6; }
+    Mod+Shift+7  { move-window-to-workspace 7; }
+    Mod+Shift+8  { move-window-to-workspace 8; }
+    Mod+Shift+9  { move-window-to-workspace 9; }
+
+    // ── Overview ──
+    Mod+Tab { toggle-overview; }
+
+    // ── Terminal alternative ──
+    Mod+Return { spawn "ghostty"; }
+}
+
+// ── Environment ──────────────────────────────────────────────────────────────
+environment {
+    QT_QPA_PLATFORM "wayland"
+    XDG_SESSION_TYPE "wayland"
+    XDG_CURRENT_DESKTOP "niri"
+    XDG_DATA_DIRS "/usr/local/share:/usr/share:/home/joser/.local/share:/home/joser/.local/share/flatpak/exports/share"
+    // For xwayland-satellite (auto-managed by niri 26.04+, DISPLAY set automatically)
+}
+include "noctalia.kdl"

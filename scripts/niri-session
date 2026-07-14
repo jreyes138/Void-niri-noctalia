@@ -1,0 +1,41 @@
+# Void Linux niri-session wrapper
+# This script is needed because Void Linux doesn't have systemd.
+# It sets up D-Bus session bus, pipewire, wireplumber, then launches niri.
+# Install to /usr/local/bin/niri-session
+
+#!/bin/sh
+set -eu
+
+# Essential environment for Wayland session
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=niri
+export XDG_DATA_DIRS="/usr/local/share:/usr/share:$HOME/.local/share:$HOME/.local/share/flatpak/exports/share:${XDG_DATA_DIRS:-}"
+
+# Start a D-Bus session bus if one is not already running.
+if [ -z "${DBUS_SESSION_BUS_ADDRESS:-}" ]; then
+    eval "$(dbus-launch --sh-syntax --exit-with-session)"
+    export DBUS_SESSION_BUS_ADDRESS
+    export DBUS_SESSION_BUS_PID
+    export DBUS_SESSION_BUS_WINDOWID
+fi
+
+# Start pipewire if not already running.
+if ! pgrep -u "$(id -u)" -x pipewire >/dev/null 2>&1; then
+    pipewire &
+fi
+
+# Start pipewire-pulse (PulseAudio compatibility) if not already running
+if ! pgrep -u "$(id -u)" -f "pipewire.*pipewire-pulse" >/dev/null 2>&1; then
+    pipewire -c pipewire-pulse.conf &
+fi
+
+# Start wireplumber (pipewire session manager) if not already running
+if ! pgrep -u "$(id -u)" -x wireplumber >/dev/null 2>&1; then
+    wireplumber &
+fi
+
+# Give pipewire/wireplumber a moment to initialize before niri starts.
+sleep 1
+
+# Launch niri as a session compositor.
+exec niri --session

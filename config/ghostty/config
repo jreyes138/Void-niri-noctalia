@@ -1,0 +1,36 @@
+# Ghostty terminal configuration
+# Docs: https://ghostty.org/docs/config
+
+# ── Theme ─────────────────────────────────────────────────────────────────────
+# Theme is managed by Noctalia shell (theme = noctalia)
+
+# ── Font ──────────────────────────────────────────────────────────────────────
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 11
+font-thicken = true
+
+# ── Window ────────────────────────────────────────────────────────────────────
+window-decoration = false
+window-padding-x = 8
+window-padding-y = 4
+window-padding-balance = true
+background-opacity = 0.97
+background-blur-radius = 20
+
+# ── Cursor ───────────────────────────────────────────────────────────────────
+cursor-style = bar
+cursor-style-blink = true
+cursor-color = #cba6f7
+
+# ── Shell ─────────────────────────────────────────────────────────────────────
+command = /bin/bash
+confirm-close-surface = false
+
+# ── Scrollback ────────────────────────────────────────────────────────────────
+scrollback-limit = 10000
+
+# ── Misc ──────────────────────────────────────────────────────────────────────
+copy-on-select = clipboard
+mouse-hide-while-typing = true
+macos-option-as-alt = true
+theme = noctalia

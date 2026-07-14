@@ -1,0 +1,14 @@
+{
+    "colorscheme": "noctalia",
+    "mkparents": true,
+    "softwrap": true,
+    "tabsize": 4,
+    "tabstospaces": false,
+    "autosave": 0,
+    "cursorline": true,
+    "syntax": true,
+    "indentguide": true,
+    "ruler": true,
+    "relativeruler": false,
+    "statusline": ["filename", "modified", "cursorpos", "lines"]
+}

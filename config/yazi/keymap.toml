@@ -1,0 +1,3 @@
+[manager]
+# Quit without confirmation
+quit = { quit = true }

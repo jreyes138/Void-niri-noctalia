@@ -1,0 +1,222 @@
+#!/usr/bin/env bash
+# Sync micro and bat themes from Noctalia's auto-generated ghostty theme.
+# Run this after changing the Noctalia global theme.
+# Can also be called via Noctalia hooks (colors_changed).
+
+set -euo pipefail
+
+GHOSTTY_THEME="$HOME/.config/ghostty/themes/noctalia"
+
+if [ ! -f "$GHOSTTY_THEME" ]; then
+    echo "Error: Noctalia ghostty theme not found at $GHOSTTY_THEME" >&2
+    exit 1
+fi
+
+get_color() {
+    grep "^$1" "$GHOSTTY_THEME" | head -1 | sed 's/.*= *//'
+}
+
+BG=$(get_color "background")
+FG=$(get_color "foreground")
+CURSOR=$(get_color "cursor-color")
+SEL_BG=$(get_color "selection-background")
+
+C0=$(get_color "palette = 0")
+C1=$(get_color "palette = 1")
+C2=$(get_color "palette = 2")
+C3=$(get_color "palette = 3")
+C4=$(get_color "palette = 4")
+C5=$(get_color "palette = 5")
+C6=$(get_color "palette = 6")
+C7=$(get_color "palette = 7")
+C8=$(get_color "palette = 8")
+C9=$(get_color "palette = 9")
+C10=$(get_color "palette = 10")
+C11=$(get_color "palette = 11")
+C12=$(get_color "palette = 12")
+C13=$(get_color "palette = 13")
+C14=$(get_color "palette = 14")
+C15=$(get_color "palette = 15")
+
+# ── micro colorscheme ────────────────────────────────────────────────────────
+MICRO_DIR="$HOME/.config/micro/colorschemes"
+mkdir -p "$MICRO_DIR"
+cat > "$MICRO_DIR/noctalia.micro" << MICRO
+color-link default "$FG,$BG"
+color-link comment "$C8"
+color-link selection "$BG,$SEL_BG"
+color-link hlsearch "$C3"
+color-link identifier "$C4"
+color-link identifier.class "$C4"
+color-link identifier.var "$C4"
+color-link constant "$C1"
+color-link constant.number "$C1"
+color-link constant.string "$C2"
+color-link symbol "$C5"
+color-link symbol.brackets "$C7"
+color-link symbol.tag "$C4"
+color-link type "$C4"
+color-link type.keyword "$C3"
+color-link keyword "$C5"
+color-link keyword.function "$C6"
+color-link function "$C6"
+color-link cursor "$CURSOR"
+color-link cursorline "$C8,$BG"
+color-link diff_added "$C2"
+color-link diff_removed "$C1"
+color-link gutter_error "$C1"
+color-link gutter_warning "$C3"
+color-link statusline "$C7,$BG"
+color-link tabbar "$C7,$BG"
+color-link indentguide "$C8"
+MICRO
+
+# Update micro settings to use noctalia theme
+cat > "$HOME/.config/micro/settings.json" << MICRO_JSON
+{
+    "colorscheme": "noctalia",
+    "mkparents": true,
+    "softwrap": true,
+    "tabsize": 4,
+    "tabstospaces": false,
+    "autosave": 0,
+    "cursorline": true,
+    "syntax": true,
+    "indentguide": true,
+    "ruler": true,
+    "relativeruler": false,
+    "statusline": ["filename", "modified", "cursorpos", "lines"]
+}
+MICRO_JSON
+
+# ── bat theme (.tmTheme) ─────────────────────────────────────────────────────
+BAT_DIR="$HOME/.config/bat/themes"
+mkdir -p "$BAT_DIR"
+cat > "$BAT_DIR/noctalia.tmTheme" << BAT
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>name</key><string>Noctalia</string>
+    <key>settings</key>
+    <array>
+        <dict>
+            <key>settings</key>
+            <dict>
+                <key>background</key><string>${BG}</string>
+                <key>foreground</key><string>${FG}</string>
+                <key>caret</key><string>${CURSOR}</string>
+                <key>selection</key><string>${SEL_BG}</string>
+                <key>lineHighlight</key><string>${C8}40</string>
+                <key>gutter</key><string>${C7}</string>
+                <key>gutterForeground</key><string>${C8}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Comment</string>
+            <key>scope</key><string>comment</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C8}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>String</string>
+            <key>scope</key><string>string</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C2}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Number</string>
+            <key>scope</key><string>constant.numeric</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C1}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Keyword</string>
+            <key>scope</key><string>keyword</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C5}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Function</string>
+            <key>scope</key><string>entity.name.function</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C6}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Type</string>
+            <key>scope</key><string>entity.name.type</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C4}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Class</string>
+            <key>scope</key><string>entity.name.class</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C4}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Variable</string>
+            <key>scope</key><string>variable</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${FG}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Tag</string>
+            <key>scope</key><string>entity.name.tag</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C1}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Attribute</string>
+            <key>scope</key><string>entity.other.attribute-name</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C3}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Punctuation</string>
+            <key>scope</key><string>punctuation</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C7}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Added</string>
+            <key>scope</key><string>markup.inserted</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C2}</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key><string>Removed</string>
+            <key>scope</key><string>markup.deleted</string>
+            <key>settings</key><dict>
+                <key>foreground</key><string>${C1}</string>
+            </dict>
+        </dict>
+    </array>
+    <key>uuid</key><string>noctalia-sync-theme</string>
+</dict>
+</plist>
+BAT
+
+# Update bat config to use noctalia theme
+cat > "$HOME/.config/bat/config" << BATCFG
+--theme="noctalia"
+--paging=never
+--style="numbers,changes,header,grid"
+BATCFG
+
+# Rebuild bat cache
+bat cache --build 2>/dev/null
+
+echo "Themes synced: micro + bat -> Noctalia"
