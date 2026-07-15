@@ -18,6 +18,7 @@ Complete desktop configuration for **Void Linux** with the **niri** Wayland comp
 | Shell | bash | `config/.bashrc` |
 | Pager | bat | `config/bat/config` |
 | ls replacement | eza | — |
+| System info | fastfetch | `config/fastfetch/config.jsonc` |
 
 ## Keybinds
 
@@ -121,7 +122,16 @@ Void-niri-noctalia/
 │       └── flavors/
 │           └── noctalia.yazi/
 │               └── flavor.toml  # Generated yazi flavor
+├── config/fastfetch/
+│   ├── config.jsonc          # Fastfetch config (boxed layout, colored output)
+│   ├── ascii/                # ASCII logos (void, rose, cat)
+│   └── png/                  # PNG logos (random on each run)
 └── scripts/
     ├── niri-session          # Session wrapper (dbus, pipewire, wireplumber)
     └── noctalia-sync-themes  # Syncs micro + bat themes from ghostty/Noctalia
 ```
+
+## Credits
+
+- [sofijacom/void-dotfiles-fastfetch](https://github.com/sofijacom/void-dotfiles-fastfetch) — MIT license, Copyright (c) 2025 Sofiya
+  - Fastfetch config based on this repo, modified with colored output

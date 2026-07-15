@@ -24,6 +24,7 @@ echo ">> Installing packages..."
 PACKAGES=(
     niri noctalia wezterm ghostty fuzzel
     micro bat eza nvim yazi
+    fastfetch ImageMagick wl-clipboard
     pipewire wireplumber
     xwayland-satellite xdg-desktop-portal-gnome xdg-desktop-portal-gtk xdg-desktop-portal-wlr
     gnome-keyring sdbus-c++ xfce-polkit
@@ -105,6 +106,14 @@ link_config "$CONFIG_DIR/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
 link_config "$CONFIG_DIR/yazi/keymap.toml" "$HOME/.config/yazi/keymap.toml"
 link_config "$CONFIG_DIR/yazi/theme.toml" "$HOME/.config/yazi/theme.toml"
 link_config "$CONFIG_DIR/yazi/flavors/noctalia.yazi/flavor.toml" "$HOME/.config/yazi/flavors/noctalia.yazi/flavor.toml"
+
+# Fastfetch
+link_config "$CONFIG_DIR/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+link_config "$CONFIG_DIR/fastfetch/ascii/void.txt" "$HOME/.config/fastfetch/ascii/void.txt"
+link_config "$CONFIG_DIR/fastfetch/ascii/rose.txt" "$HOME/.config/fastfetch/ascii/rose.txt"
+link_config "$CONFIG_DIR/fastfetch/ascii/cat.txt" "$HOME/.config/fastfetch/ascii/cat.txt"
+link_config "$CONFIG_DIR/fastfetch/png/void-logo.png" "$HOME/.config/fastfetch/png/void-logo.png"
+link_config "$CONFIG_DIR/fastfetch/png/oie_void.png" "$HOME/.config/fastfetch/png/oie_void.png"
 
 # Shell
 link_config "$CONFIG_DIR/.bashrc" "$HOME/.bashrc"
