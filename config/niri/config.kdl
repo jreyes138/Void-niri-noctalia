@@ -32,7 +32,7 @@ input {
 
 // ── Layout ───────────────────────────────────────────────────────────────────
 layout {
-    gaps 8
+    gaps 0
     focus-ring {
         off
     }
@@ -42,6 +42,13 @@ layout {
     }
     // Uncomment for stationary wallpaper (Option 2 from Noctalia docs):
     // background-color "transparent"
+}
+
+// ── Gestures ─────────────────────────────────────────────────────────────────
+gestures {
+    hot-corners {
+        off
+    }
 }
 
 // ── Window Rules ─────────────────────────────────────────────────────────────
@@ -92,6 +99,7 @@ binds {
     // ── Core keybinds ──
     Mod+T      { spawn "ghostty"; }
     Mod+B      { spawn "zen"; }
+    Mod+K      { spawn "keepassxc"; }
     Mod+M      { spawn-sh "flatpak run com.tutanota.Tutanota"; }
     Mod+E      { spawn-sh "ghostty -e yazi"; }
     Mod+D      { spawn "fuzzel"; }
@@ -161,9 +169,11 @@ binds {
 // ── Environment ──────────────────────────────────────────────────────────────
 environment {
     QT_QPA_PLATFORM "wayland"
+    QT_QPA_PLATFORMTHEME "qt5ct"
     XDG_SESSION_TYPE "wayland"
     XDG_CURRENT_DESKTOP "niri"
-    XDG_DATA_DIRS "/usr/local/share:/usr/share:/home/joser/.local/share:/home/joser/.local/share/flatpak/exports/share"
+    XDG_DATA_DIRS "/usr/local/share:/usr/share:/home/joser/.local/share:/home/joser/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share"
+    MOZ_ENABLE_WAYLAND "1"
     // For xwayland-satellite (auto-managed by niri 26.04+, DISPLAY set automatically)
 }
 include "noctalia.kdl"
