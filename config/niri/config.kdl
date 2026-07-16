@@ -98,7 +98,7 @@ debug {
 binds {
     // ── Core keybinds ──
     Mod+T      { spawn "ghostty"; }
-    Mod+B      { spawn "flatpak"; args "run" "app.zen_browser.zen"; }
+    Mod+B      { spawn-sh "flatpak run app.zen_browser.zen"; }
     Mod+K      { spawn "keepassxc"; }
     Mod+M      { spawn-sh "flatpak run com.tutanota.Tutanota"; }
     Mod+E      { spawn-sh "ghostty -e yazi"; }
